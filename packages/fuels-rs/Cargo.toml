@@ -15,3 +15,6 @@ fuels-contract = { version = "0.9.1", path = "../fuels-contract" }
 fuels-core = { version = "0.9.1", path = "../fuels-core" }
 fuels-signers = { version = "0.9.1", path = "../fuels-signers" }
 fuels-test-helpers = { version = "0.9.1", path = "../fuels-test-helpers" }
+
+[dev-dependencies]
+semver = "1.0"

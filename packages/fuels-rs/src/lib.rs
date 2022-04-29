@@ -53,3 +53,27 @@ pub mod prelude {
     pub use super::signers::{LocalWallet, Signer};
     pub use super::test_helpers::*;
 }
+
+/// Expose the minimum supported rustc version as a semver string. E.g. `1.58.0`.
+///
+/// This allows downstream tooling (i.e. `forc`) to generate test harness manifest files with an
+/// equivalent `rust-version = <version>` field, ensuring that users are notified in the case that
+/// their locally installed rustc version is out of date.
+///
+/// The version is detected by including the `fuels` `Cargo.toml` as a constant string slice and
+/// manually finding and parsing the line with the assigned rust-version.
+pub fn min_supported_rust_version() -> &'static str {
+    const CARGO_MANIFEST_TOML: &str = include_str!("../Cargo.toml");
+    const RUST_VERSION_PREFIX: &str = "rust-version =";
+    CARGO_MANIFEST_TOML
+        .lines()
+        .find(|line| line.starts_with(RUST_VERSION_PREFIX))
+        .and_then(|line| line[RUST_VERSION_PREFIX.len()..].split('"').nth(1))
+        .expect("unable to parse `rust-version` field from fuels manifest")
+}
+
+#[test]
+fn min_supported_rust_version_exists_and_is_valid_semver() {
+    let s = min_supported_rust_version();
+    semver::Version::parse(s).unwrap();
+}
