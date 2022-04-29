@@ -7,6 +7,7 @@ homepage = "https://fuel.network/"
 license = "Apache-2.0"
 repository = "https://github.com/FuelLabs/fuels-rs"
 description = "Fuel Rust SDK."
+rust-version = "1.58.0"
 
 [dependencies]
 fuels-abigen-macro = { version = "0.9.1", path = "../fuels-abigen-macro" }
